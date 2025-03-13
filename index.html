@@ -483,52 +483,33 @@
           // Show loading message
           formMessage.textContent = "Submitting...";
           
-          // Create a hidden iframe for submission
-          const iframe = document.createElement('iframe');
-          iframe.style.display = 'none';
-          document.body.appendChild(iframe);
-          
-          // Create a form inside the iframe
-          const scriptURL = 'https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec';
-          
-          // Use form data to submit
+          // Create form data
           const formData = new FormData();
           formData.append('name', name);
           formData.append('email', email);
           formData.append('timestamp', new Date().toISOString());
           
-          // Submit the form data
-          const tempForm = document.createElement('form');
-          tempForm.method = 'POST';
-          tempForm.action = scriptURL;
-          tempForm.target = '_blank';
-          
-          // Add form fields
-          for (let pair of formData.entries()) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = pair[0];
-            input.value = pair[1];
-            tempForm.appendChild(input);
-          }
-          
-          // Add form to body and submit
-          document.body.appendChild(tempForm);
-          
-          // Show success message and redirect
-          formMessage.textContent = "Thank you! Redirecting to download...";
-          
-          // Submit the form and redirect after a delay
-          setTimeout(() => {
-            tempForm.submit();
-            window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
-            formMessage.textContent = ""; // Clear message
-            reportForm.reset(); // Reset form
+          // Submit to Google Script
+          fetch('https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            body: new URLSearchParams(formData)
+          })
+          .then(() => {
+            // Show success message
+            formMessage.textContent = "Thank you! Redirecting to download...";
             
-            // Clean up
-            document.body.removeChild(tempForm);
-            document.body.removeChild(iframe);
-          }, 1500);
+            // Open the download link in a new tab
+            setTimeout(() => {
+              window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
+              formMessage.textContent = ""; // Clear message
+              reportForm.reset(); // Reset form
+            }, 1500);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            formMessage.textContent = "An error occurred. Please try again.";
+          });
         });
       });
     </script>
