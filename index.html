@@ -15,20 +15,35 @@
         to { transform: rotate(360deg); }
       }
       
-      .btn_dark span small:nth-child(1) {
+      /* Button state styles */
+      .btn_dark span .normal-text {
         display: block;
+        padding: 16px 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 24px;
+        -webkit-transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       }
       
-      .btn_dark span small:nth-child(2) {
+      .btn_dark span .loading-text {
+        display: none;
+        padding: 16px 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 24px;
+        -webkit-transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        align-items: center;
+      }
+      
+      .btn_dark.loading span .normal-text {
         display: none;
       }
       
-      .btn_dark.loading span small:nth-child(1) {
-        display: none;
-      }
-      
-      .btn_dark.loading span small:nth-child(2) {
-        display: block;
+      .btn_dark.loading span .loading-text {
+        display: flex;
+        align-items: center;
       }
     </style>
 
@@ -420,10 +435,13 @@
                       
                       <div class="form_item" style="margin-top: 32px; text-align: center;">
                         <div style="position: relative; display: inline-block;">
-                          <button type="submit" class="btn btn_dark" id="submitButton" style="min-width: 232px; height: 60px; width: 232px;">
+                          <button type="submit" class="btn btn_dark" id="submitButton" style="min-width: 233px; height: 60px; width: 232px;">
                             <span style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                              <small style="font-size: 16px; line-height: 1.2;">Download Report</small>
-                              <small style="font-size: 16px; line-height: 1.2;">Loading...</small>
+                              <div class="normal-text">Download Report</div>
+                              <div class="loading-text">
+                                Loading...
+                                <div class="spinner" style="width: 20px; height: 20px; border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-left: 8px;"></div>
+                              </div>
                             </span>
                           </button>
                         </div>
