@@ -403,18 +403,20 @@
                       </div>
                       
                       <div class="form_item" style="margin-top: 32px; text-align: center;">
-                        <button type="submit" class="btn btn_dark" id="submitButton">
-                          <span>
-                            <small>Download Report</small>
-                            <small>Download Report</small>
-                          </span>
-                        </button>
-                        <button type="button" class="btn btn_dark" id="loadingButton" style="display: none;">
-                          <span style="display: flex; align-items: center; justify-content: center;">
-                            <div class="spinner" style="width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-right: 10px;"></div>
-                            <small>Processing...</small>
-                          </span>
-                        </button>
+                        <div style="position: relative; display: inline-block;">
+                          <button type="submit" class="btn btn_dark" id="submitButton" style="min-width: 180px;">
+                            <span>
+                              <small>Download Report</small>
+                              <small>Download Report</small>
+                            </span>
+                          </button>
+                          <button type="button" class="btn btn_dark" id="loadingButton" style="display: none; min-width: 180px; position: absolute; top: 0; left: 0; right: 0;">
+                            <span style="display: flex; align-items: center; justify-content: center;">
+                              <div class="spinner" style="width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-right: 10px;"></div>
+                              <small>Processing...</small>
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                     <div id="formMessage" style="margin-top: 10px; color: white; text-align: center;"></div>
@@ -428,7 +430,7 @@
                         Your details have been received. Please check your email for the link to download the report. If you don't see it in your inbox, check your spam or promotions folder.
                       </p>
                       <div style="max-width: 400px; margin: 32px auto; text-align: center;">
-                        <a href="https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing" target="_blank" class="btn btn_dark" style="margin-bottom: 20px;">
+                        <a href="https://drive.google.com/drive/folders/1WZC6ER30B5r5BSUZpu-Ne2MzNAO-Kexx?usp=sharing" target="_blank" class="btn btn_dark" style="margin-bottom: 20px;">
                           <span>
                             <small>Download Report Directly</small>
                             <small>Download Report Directly</small>
@@ -528,8 +530,8 @@
           console.log('Form submitted');
           
           // Show loading button and hide submit button
-          submitButton.style.display = 'none';
-          loadingButton.style.display = 'inline-block';
+          submitButton.style.visibility = 'hidden';
+          loadingButton.style.display = 'block';
           
           // Get form data
           const formData = new FormData(reportForm);
@@ -566,7 +568,7 @@
         
         // Function to send email with download link using server endpoint
         function sendEmailWithDownloadLink(name, email, company) {
-          const downloadLink = 'https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing';
+          const downloadLink = 'https://drive.google.com/drive/folders/1WZC6ER30B5r5BSUZpu-Ne2MzNAO-Kexx?usp=sharing';
           
           // Create a promise that resolves after a minimum delay (1 second)
           const minDelay = new Promise(resolve => setTimeout(resolve, 1000));
