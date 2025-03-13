@@ -77,7 +77,7 @@
                 <li>
                 </li>
                 <li>
-                  <a class="btn btn_dark" target="_blank" href="https://forms.gle/JVmkLodJGs8z6exE6">
+                  <a class="btn btn_dark download-btn" href="#contact">
                     <span>
                       <small>Register Now</small>
                       <small>Register Now</small>
@@ -124,7 +124,7 @@
               <br><br>
                 <form action="#">
                   <div class="form_item">
-                      <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
+                      <a href="#contact" class="btn btn_dark download-btn">
                         <span>
                           <small>Download Report</small>
                           <small>Download Report</small>
@@ -203,7 +203,7 @@
                         </ul>
                       </p>
                       <div class="form_item">
-                        <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
+                        <a href="#contact" class="btn btn_dark download-btn">
                           <span>
                             <small>Download Report</small>
                             <small>Download Report</small>
@@ -372,19 +372,42 @@
               </div>
               <div class="col col-lg-5">
                 <div class="calltoaction_form">
-                  <div>
+                  <form id="reportForm">
                     <h3 class="form_title">Download the Report</h3>
                     <p style="margin-top: -16px;">
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
-                    <div class="form_item" style="margin-top: 32px;">
-                      <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
+                    <div class="form_item">
+                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
+                    </div>
+                    <div class="form_item">
+                      <input type="text" id="company" name="company" placeholder="Enter your company name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
+                    </div>
+                    <div class="form_item">
+                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; background-color: white;">
+                    </div>
+                    <div class="form_item" style="margin-top: 16px;">
+                      <button type="submit" class="btn btn_dark">
                         <span>
                           <small>Download Report</small>
                           <small>Download Report</small>
                         </span>
-                      </a>
+                      </button>
                     </div>
+                    <div id="formMessage" style="margin-top: 10px; color: white;"></div>
+                  </form>
+                  
+                  <!-- Thank You Message (Hidden by default) -->
+                  <div id="thankYouMessage" style="display: none;">
+                    <form action="#">
+                      <h3 class="form_title">Thank You! 🎉</h3>
+                      <p style="margin-top: -16px;">
+                        Your details have been received. Please check your email for the link to download the report. If you don't see it in your inbox, check your spam or promotions folder.
+                        <br><br>
+                        If you don't receive the email, you can also <a href="https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing" target="_blank" style="color: #0050C5; font-weight: bold;">download the report directly here</a>.
+                        <br><br>Enjoy the insights, and feel free to reach out to <a href="mailto:matthew@theravenry.com" style="color: #0050C5;">matthew@theravenry.com</a> if you have any questions! 🚀
+                      </p>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -442,6 +465,100 @@
 
     <!-- Custom - Jquery Include -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Google Sheets Form Submission -->
+    <script>
+      // Wait for the DOM to be fully loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, setting up event listeners');
+        
+        // Update all download links to show the form instead
+        const downloadLinks = document.querySelectorAll('a[href*="drive.google.com"], .download-btn');
+        console.log('Found download links:', downloadLinks.length);
+        
+        downloadLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            console.log('Download link clicked');
+            e.preventDefault();
+            // Scroll to the form section
+            document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+          });
+        });
+
+        // Handle form submission
+        const reportForm = document.getElementById('reportForm');
+        const formMessage = document.getElementById('formMessage');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+        
+        reportForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          console.log('Form submitted');
+          
+          // Show loading message
+          formMessage.textContent = "Submitting...";
+          
+          // Get form data
+          const formData = new FormData(reportForm);
+          const email = formData.get('email');
+          const name = formData.get('name');
+          const company = formData.get('company');
+          
+          // Add timestamp field
+          formData.append('timestamp', new Date().toISOString());
+          
+          // Submit to Google Script
+          fetch('https://script.google.com/macros/s/AKfycbyBzyod38jq-8K0ysHsXZOoIJ7m9qm01rxowSQ1IkpVKgx9qFbr7-I1tpcJNce-GTplWQ/exec', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            console.log('Success!', response);
+            
+            // Hide the form and show thank you message
+            reportForm.style.display = 'none';
+            thankYouMessage.style.display = 'block';
+            
+            // Send email with download link
+            sendEmailWithDownloadLink(name, email, company);
+          })
+          .catch(error => {
+            console.error('Error!', error.message);
+            // Still show success since we want to be user-friendly
+            reportForm.style.display = 'none';
+            thankYouMessage.style.display = 'block';
+            
+            // Send email with download link
+            sendEmailWithDownloadLink(name, email, company);
+          });
+        });
+        
+        // Function to send email with download link using server endpoint
+        function sendEmailWithDownloadLink(name, email, company) {
+          const downloadLink = 'https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing';
+          
+          // This would typically call your backend endpoint that uses Resend
+          fetch('/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              company: company,
+              downloadLink: downloadLink
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Email sent successfully:', data);
+          })
+          .catch(error => {
+            console.error('Error sending email:', error);
+          });
+        }
+      });
+    </script>
 
   </body>
 </html>

@@ -1,51 +1,99 @@
-# Ravenry Survey Landing Page
+# Ravenry Survey Report Download
 
-This landing page includes a form that collects email addresses when users download the report. The form data is sent to a Google Sheet.
+This project is a landing page for the "Shaping the Future of Work: How Independent Talent is Redefining Work in Singapore" report by Ravenry.
 
-## Setting Up Google Sheets Integration
+## Features
 
-Follow these steps to set up the Google Sheets integration:
+- Landing page with information about the report
+- Form to collect user details (Name, Company, Email)
+- Thank you page after form submission
+- Email sending functionality using Resend
+- Data collection in Google Sheets
 
-### Step 1: Create a Google Sheet
+## Setup Instructions
 
-1. Go to [Google Sheets](https://sheets.google.com) and create a new spreadsheet
-2. Name the spreadsheet "Ravenry Survey Responses"
-3. Add headers in the first row: "Name", "Email", "Timestamp"
+### Prerequisites
 
-### Step 2: Create a Google Apps Script
+- Node.js (v14 or higher)
+- npm or yarn
+- A Resend API key (get one at [resend.com](https://resend.com))
+- A Google Sheet with the Google Apps Script deployed
 
-1. In your Google Sheet, click on "Extensions" > "Apps Script"
-2. Replace the default code with the code from the `google_apps_script.js` file in this repository
-3. Save the script (File > Save)
-4. Click on "Deploy" > "New deployment"
-5. Select "Web app" as the deployment type
-6. Set "Who has access" to "Anyone" (this allows the form to submit data without authentication)
-7. Click "Deploy"
-8. Copy the Web App URL that is generated
+### Installation
 
-### Step 3: Update the HTML File
+1. Clone this repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Create a `.env` file based on `.env.example` and add your Resend API key:
+   ```
+   RESEND_API_KEY=your_resend_api_key_here
+   ```
+4. Update the Google Apps Script URL in `index.html` if needed:
+   ```javascript
+   fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+     method: 'POST',
+     body: formData
+   })
+   ```
 
-1. Open the `index.html` file
-2. Find the line with `const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL';`
-3. Replace `'YOUR_GOOGLE_SCRIPT_URL'` with the Web App URL you copied in Step 2
+### Running the Application Locally
 
-## How It Works
+1. Start the server:
+   ```
+   npm start
+   ```
+2. Open your browser and navigate to `http://localhost:3000`
 
-1. When a user clicks on any "Download Report" button, they are directed to the form at the bottom of the page
-2. After submitting their email, the data is sent to the Google Sheet
-3. Upon successful submission, the user is redirected to the report download link
+### Deploying to Vercel
 
-## Customization
+1. Install the Vercel CLI:
+   ```
+   npm install -g vercel
+   ```
 
-- You can modify the form fields in the HTML file to collect additional information
-- Update the Google Apps Script to handle the additional fields
-- Adjust the styling in the HTML file to match your branding
+2. Login to Vercel:
+   ```
+   vercel login
+   ```
 
-## Troubleshooting
+3. Deploy the project:
+   ```
+   vercel
+   ```
 
-If the form submission is not working:
+4. Set up environment variables in the Vercel dashboard:
+   - Go to your project settings
+   - Navigate to the "Environment Variables" tab
+   - Add the `RESEND_API_KEY` variable with your Resend API key
 
-1. Check the browser console for any JavaScript errors
-2. Verify that the Google Apps Script URL is correct
-3. Make sure the Google Apps Script is deployed as a web app with the correct permissions
-4. Check that the Google Sheet is accessible to the script
+5. For production deployment:
+   ```
+   vercel --prod
+   ```
+
+Alternatively, you can connect your GitHub repository to Vercel for automatic deployments.
+
+### Google Sheet Setup
+
+1. Create a Google Sheet with the following headers in the first row:
+   - name
+   - company
+   - email
+   - timestamp
+
+2. Deploy the Google Apps Script (see `google_apps_script.js`) as a web app.
+
+## Email Template
+
+The email sent to users includes:
+- Personalized greeting with first name
+- Thank you message
+- Information about the report
+- Download link for the report
+- Contact information
+
+## License
+
+All rights reserved © 2023 Ravenry
