@@ -378,10 +378,10 @@
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
                     <div class="form_item">
-                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: white; font-size: 16px; margin-bottom: 10px;">
+                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
                     </div>
                     <div class="form_item">
-                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: white; font-size: 16px;">
+                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; background-color: white;">
                     </div>
                     <div class="form_item" style="margin-top: 16px;">
                       <button type="submit" class="btn btn_dark">
@@ -471,49 +471,64 @@
 
         // Handle form submission
         const reportForm = document.getElementById('reportForm');
+        const formMessage = document.getElementById('formMessage');
+        
         reportForm.addEventListener('submit', function(e) {
-          console.log('Form submitted');
           e.preventDefault();
+          console.log('Form submitted');
           
           const name = document.getElementById('name').value;
           const email = document.getElementById('email').value;
-          const formMessage = document.getElementById('formMessage');
           
           // Show loading message
           formMessage.textContent = "Submitting...";
           
-          // Replace this URL with your Google Apps Script Web App URL
+          // Create a hidden iframe for submission
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          document.body.appendChild(iframe);
+          
+          // Create a form inside the iframe
           const scriptURL = 'https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec';
           
-          // Send data to Google Sheets
-          fetch(scriptURL, {
-            method: 'POST',
-            body: JSON.stringify({ 
-              name: name,
-              email: email, 
-              timestamp: new Date().toISOString() 
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          .then(response => {
-            if (response.ok) {
-              formMessage.textContent = "Thank you! Redirecting to download...";
-              // Redirect to the download link after successful submission
-              setTimeout(() => {
-                window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
-                formMessage.textContent = ""; // Clear message
-                reportForm.reset(); // Reset form
-              }, 1500);
-            } else {
-              throw new Error('Network response was not ok');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            formMessage.textContent = "There was an error. Please try again.";
-          });
+          // Use form data to submit
+          const formData = new FormData();
+          formData.append('name', name);
+          formData.append('email', email);
+          formData.append('timestamp', new Date().toISOString());
+          
+          // Submit the form data
+          const tempForm = document.createElement('form');
+          tempForm.method = 'POST';
+          tempForm.action = scriptURL;
+          tempForm.target = '_blank';
+          
+          // Add form fields
+          for (let pair of formData.entries()) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = pair[0];
+            input.value = pair[1];
+            tempForm.appendChild(input);
+          }
+          
+          // Add form to body and submit
+          document.body.appendChild(tempForm);
+          
+          // Show success message and redirect
+          formMessage.textContent = "Thank you! Redirecting to download...";
+          
+          // Submit the form and redirect after a delay
+          setTimeout(() => {
+            tempForm.submit();
+            window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
+            formMessage.textContent = ""; // Clear message
+            reportForm.reset(); // Reset form
+            
+            // Clean up
+            document.body.removeChild(tempForm);
+            document.body.removeChild(iframe);
+          }, 1500);
         });
       });
     </script>
