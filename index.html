@@ -124,7 +124,7 @@
               <br><br>
                 <form action="#">
                   <div class="form_item">
-                      <a href="https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing" target="_blank" class="btn btn_dark">
+                      <a href="#contact" class="btn btn_dark download-btn">
                         <span>
                           <small>Download Report</small>
                           <small>Download Report</small>
@@ -195,15 +195,15 @@
                       </h3>
                       <p>
                         <ul style="margin-left: -16px; font-size: 16px;">
-                          <li><b>Singapore’s Independent Talent Skews More Senior Than the Global Average:</b><br> Independent workers are not junior freelancers but seasoned professionals embedded in strategic roles</li>
+                          <li><b>Singapore's Independent Talent Skews More Senior Than the Global Average:</b><br> Independent workers are not junior freelancers but seasoned professionals embedded in strategic roles</li>
                           <li style="margin-top: 8px;"><b>Why Organizations Turn to Independent Talent: </b><br>Businesses turn to independent professionals for two key reasons—fast hiring and specialized skills.</li>
                           <li style="margin-top: 8px;"> <b>Independent Talent Takes on Bigger, Longer Roles:</b><br> Companies are increasingly hiring independent professionals for senior and long-term roles, moving beyond short-term project work.</li>
-                          <li style="margin-top: 8px;"><b>Independent Work Isn’t a Phase—It’s a Career Choice: </b><br>While many professionals enter independent work due to situational factors, most choose to stay.</li>
+                          <li style="margin-top: 8px;"><b>Independent Work Isn't a Phase—It's a Career Choice: </b><br>While many professionals enter independent work due to situational factors, most choose to stay.</li>
                           
                         </ul>
                       </p>
                       <div class="form_item">
-                        <a href="https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing" target="_blank" class="btn btn_dark">
+                        <a href="#contact" class="btn btn_dark download-btn">
                           <span>
                             <small>Download Report</small>
                             <small>Download Report</small>
@@ -372,21 +372,26 @@
               </div>
               <div class="col col-lg-5">
                 <div class="calltoaction_form">
-                  <form action="#">
+                  <form id="reportForm">
                     <h3 class="form_title">Download the Report</h3>
                     <p style="margin-top: -16px;">
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
-                    <form action="#">
-                      <div class="form_item"style="margin-top: 32px;" >
-                          <a href="https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing" target="_blank" class="btn btn_dark">
-                            <span>
-                              <small>Download Report</small>
-                              <small>Download Report</small>
-                            </span>
-                          </a>
-                      </div>
-                    </form>
+                    <div class="form_item">
+                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: white; font-size: 16px; margin-bottom: 10px;">
+                    </div>
+                    <div class="form_item">
+                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: white; font-size: 16px;">
+                    </div>
+                    <div class="form_item" style="margin-top: 16px;">
+                      <button type="submit" class="btn btn_dark">
+                        <span>
+                          <small>Download Report</small>
+                          <small>Download Report</small>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="formMessage" style="margin-top: 10px; color: white;"></div>
                   </form>
                 </div>
               </div>
@@ -444,6 +449,67 @@
 
     <!-- Custom - Jquery Include -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Google Sheets Form Submission -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Update all download links to show the form instead
+        const downloadLinks = document.querySelectorAll('.download-btn');
+        downloadLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Scroll to the form section
+            document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+          });
+        });
+
+        // Handle form submission
+        const reportForm = document.getElementById('reportForm');
+        reportForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const formMessage = document.getElementById('formMessage');
+          
+          // Show loading message
+          formMessage.textContent = "Submitting...";
+          
+          // Replace this URL with your Google Apps Script Web App URL
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec';
+          
+          // Send data to Google Sheets
+          fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify({ 
+              name: name,
+              email: email, 
+              timestamp: new Date().toISOString() 
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            if (response.ok) {
+              formMessage.textContent = "Thank you! Redirecting to download...";
+              // Redirect to the download link after successful submission
+              setTimeout(() => {
+                window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
+                formMessage.textContent = ""; // Clear message
+                reportForm.reset(); // Reset form
+              }, 1500);
+            } else {
+              throw new Error('Network response was not ok');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            formMessage.textContent = "There was an error. Please try again.";
+          });
+        });
+      });
+    </script>
 
   </body>
 </html>
