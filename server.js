@@ -24,7 +24,8 @@ const resend = new Resend(resendApiKey);
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname)));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Route to serve the main HTML file
 app.get('/', (req, res) => {
@@ -41,7 +42,7 @@ app.post('/send-email', async (req, res) => {
     
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'The Ravenry Team <research@theravenry.com>',
+      from: 'The Ravenry Team <team@mail.theravenry.com>',
       to: email,
       subject: '📥 Download the Report: Shaping the Future of Work in Singapore',
       html: `

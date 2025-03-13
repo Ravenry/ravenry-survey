@@ -10,6 +10,12 @@
   	<title>Fraction Work Survey</title>
   	<link rel="shortcut icon" href="assets/images/logo/favourite_icon_1.svg">
 
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+
   	<!-- Framework - CSS Include -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
@@ -377,24 +383,41 @@
                     <p style="margin-top: -16px;">
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
-                    <div class="form_item">
-                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
+                    <div style="max-width: 400px; margin: 32px auto; font-family: Arial, sans-serif;">
+                      <div class="form_item" style="margin-bottom: 16px;">
+                        <label for="name" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required 
+                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                      </div>
+                      
+                      <div class="form_item" style="margin-bottom: 16px;">
+                        <label for="company" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="Enter your company name" required 
+                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                      </div>
+                      
+                      <div class="form_item" style="margin-bottom: 16px;">
+                        <label for="email" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required 
+                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                      </div>
+                      
+                      <div class="form_item" style="margin-top: 32px; text-align: center;">
+                        <button type="submit" class="btn btn_dark" id="submitButton">
+                          <span>
+                            <small>Download Report</small>
+                            <small>Download Report</small>
+                          </span>
+                        </button>
+                        <button type="button" class="btn btn_dark" id="loadingButton" style="display: none;">
+                          <span style="display: flex; align-items: center; justify-content: center;">
+                            <div class="spinner" style="width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-right: 10px;"></div>
+                            <small>Processing...</small>
+                          </span>
+                        </button>
+                      </div>
                     </div>
-                    <div class="form_item">
-                      <input type="text" id="company" name="company" placeholder="Enter your company name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
-                    </div>
-                    <div class="form_item">
-                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; background-color: white;">
-                    </div>
-                    <div class="form_item" style="margin-top: 16px;">
-                      <button type="submit" class="btn btn_dark">
-                        <span>
-                          <small>Download Report</small>
-                          <small>Download Report</small>
-                        </span>
-                      </button>
-                    </div>
-                    <div id="formMessage" style="margin-top: 10px; color: white;"></div>
+                    <div id="formMessage" style="margin-top: 10px; color: white; text-align: center;"></div>
                   </form>
                   
                   <!-- Thank You Message (Hidden by default) -->
@@ -403,10 +426,18 @@
                       <h3 class="form_title">Thank You! 🎉</h3>
                       <p style="margin-top: -16px;">
                         Your details have been received. Please check your email for the link to download the report. If you don't see it in your inbox, check your spam or promotions folder.
-                        <br><br>
-                        If you don't receive the email, you can also <a href="https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing" target="_blank" style="color: #0050C5; font-weight: bold;">download the report directly here</a>.
-                        <br><br>Enjoy the insights, and feel free to reach out to <a href="mailto:matthew@theravenry.com" style="color: #0050C5;">matthew@theravenry.com</a> if you have any questions! 🚀
                       </p>
+                      <div style="max-width: 400px; margin: 32px auto; text-align: center;">
+                        <a href="https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing" target="_blank" class="btn btn_dark" style="margin-bottom: 20px;">
+                          <span>
+                            <small>Download Report Directly</small>
+                            <small>Download Report Directly</small>
+                          </span>
+                        </a>
+                        <p style="margin-top: 20px;">
+                          Enjoy the insights, and feel free to reach out to <a href="mailto:matthew@theravenry.com" style="color: #0050C5; font-weight: bold;">matthew@theravenry.com</a> if you have any questions! 🚀
+                        </p>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -489,13 +520,16 @@
         const reportForm = document.getElementById('reportForm');
         const formMessage = document.getElementById('formMessage');
         const thankYouMessage = document.getElementById('thankYouMessage');
+        const submitButton = document.getElementById('submitButton');
+        const loadingButton = document.getElementById('loadingButton');
         
         reportForm.addEventListener('submit', function(e) {
           e.preventDefault();
           console.log('Form submitted');
           
-          // Show loading message
-          formMessage.textContent = "Submitting...";
+          // Show loading button and hide submit button
+          submitButton.style.display = 'none';
+          loadingButton.style.display = 'inline-block';
           
           // Get form data
           const formData = new FormData(reportForm);
@@ -514,21 +548,19 @@
           .then(response => {
             console.log('Success!', response);
             
+            // Send email with download link
+            return sendEmailWithDownloadLink(name, email, company);
+          })
+          .then(() => {
             // Hide the form and show thank you message
             reportForm.style.display = 'none';
             thankYouMessage.style.display = 'block';
-            
-            // Send email with download link
-            sendEmailWithDownloadLink(name, email, company);
           })
           .catch(error => {
             console.error('Error!', error.message);
             // Still show success since we want to be user-friendly
             reportForm.style.display = 'none';
             thankYouMessage.style.display = 'block';
-            
-            // Send email with download link
-            sendEmailWithDownloadLink(name, email, company);
           });
         });
         
@@ -536,8 +568,11 @@
         function sendEmailWithDownloadLink(name, email, company) {
           const downloadLink = 'https://drive.google.com/file/d/1rGm7TR7lhvKXjTADkfewJ6e3FeA9XJKE/view?usp=sharing';
           
+          // Create a promise that resolves after a minimum delay (1 second)
+          const minDelay = new Promise(resolve => setTimeout(resolve, 1000));
+          
           // This would typically call your backend endpoint that uses Resend
-          fetch('/send-email', {
+          const emailPromise = fetch('/send-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -552,9 +587,12 @@
           .then(response => response.json())
           .then(data => {
             console.log('Email sent successfully:', data);
-          })
-          .catch(error => {
-            console.error('Error sending email:', error);
+            return data;
+          });
+          
+          // Return a promise that resolves when both the email is sent and the minimum delay has passed
+          return Promise.all([emailPromise, minDelay]).then(() => {
+            return true;
           });
         }
       });
