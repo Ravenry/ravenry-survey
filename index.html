@@ -14,6 +14,22 @@
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
+      
+      .btn_dark span small:nth-child(1) {
+        display: block;
+      }
+      
+      .btn_dark span small:nth-child(2) {
+        display: none;
+      }
+      
+      .btn_dark.loading span small:nth-child(1) {
+        display: none;
+      }
+      
+      .btn_dark.loading span small:nth-child(2) {
+        display: block;
+      }
     </style>
 
   	<!-- Framework - CSS Include -->
@@ -384,36 +400,30 @@
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
                     <div style="max-width: 400px; margin: 32px auto; font-family: Arial, sans-serif;">
-                      <div class="form_item" style="margin-bottom: 16px;">
-                        <label for="name" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Full Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your full name" required 
-                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                       <div class="form_item" style="margin-bottom: 16px;">
+                        <label for="full_name" style="display: block; font-weight: bold; margin-bottom: 6px;">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" 
+                               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                       </div>
                       
                       <div class="form_item" style="margin-bottom: 16px;">
-                        <label for="company" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Company Name</label>
-                        <input type="text" id="company" name="company" placeholder="Enter your company name" required 
-                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                        <label for="company" style="display: block; font-weight: bold; margin-bottom: 6px;">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="Enter your company name" 
+                               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                       </div>
                       
                       <div class="form_item" style="margin-bottom: 16px;">
-                        <label for="email" style="display: block; font-weight: bold; margin-bottom: 6px; color: white;">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" required 
-                               style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background-color: white; color: black; font-size: 16px;">
+                        <label for="email" style="display: block; font-weight: bold; margin-bottom: 6px;">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" 
+                               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                       </div>
                       
                       <div class="form_item" style="margin-top: 32px; text-align: center;">
                         <div style="position: relative; display: inline-block;">
-                          <button type="submit" class="btn btn_dark" id="submitButton" style="min-width: 180px;">
-                            <span>
-                              <small>Download Report</small>
-                              <small>Download Report</small>
-                            </span>
-                          </button>
-                          <button type="button" class="btn btn_dark" id="loadingButton" style="display: none; min-width: 180px; position: absolute; top: 0; left: 0; right: 0;">
-                            <span style="display: flex; align-items: center; justify-content: center;">
-                              <div class="spinner" style="width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-right: 10px;"></div>
-                              <small>Processing...</small>
+                          <button type="submit" class="btn btn_dark" id="submitButton" style="min-width: 232px; height: 60px; width: 232px;">
+                            <span style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                              <small style="font-size: 16px; line-height: 1.2;">Download Report</small>
+                              <small style="font-size: 16px; line-height: 1.2;">Loading...</small>
                             </span>
                           </button>
                         </div>
@@ -425,17 +435,11 @@
                   <!-- Thank You Message (Hidden by default) -->
                   <div id="thankYouMessage" style="display: none;">
                     <form action="#">
-                      <h3 class="form_title">Thank You! 🎉</h3>
+                      <h3 class="form_title">Thank You! 🎉</h3> 
                       <p style="margin-top: -16px;">
                         Your details have been received. Please check your email for the link to download the report. If you don't see it in your inbox, check your spam or promotions folder.
                       </p>
-                      <div style="max-width: 400px; margin: 32px auto; text-align: center;">
-                        <a href="https://drive.google.com/drive/folders/1WZC6ER30B5r5BSUZpu-Ne2MzNAO-Kexx?usp=sharing" target="_blank" class="btn btn_dark" style="margin-bottom: 20px;">
-                          <span>
-                            <small>Download Report Directly</small>
-                            <small>Download Report Directly</small>
-                          </span>
-                        </a>
+                      <div style="max-width: 400px; margin: 32px 0px 32px 0px; text-align: left;">
                         <p style="margin-top: 20px;">
                           Enjoy the insights, and feel free to reach out to <a href="mailto:matthew@theravenry.com" style="color: #0050C5; font-weight: bold;">matthew@theravenry.com</a> if you have any questions! 🚀
                         </p>
@@ -523,15 +527,13 @@
         const formMessage = document.getElementById('formMessage');
         const thankYouMessage = document.getElementById('thankYouMessage');
         const submitButton = document.getElementById('submitButton');
-        const loadingButton = document.getElementById('loadingButton');
         
         reportForm.addEventListener('submit', function(e) {
           e.preventDefault();
           console.log('Form submitted');
           
-          // Show loading button and hide submit button
-          submitButton.style.visibility = 'hidden';
-          loadingButton.style.display = 'block';
+          // Change button text to show loading state
+          submitButton.classList.add('loading');
           
           // Get form data
           const formData = new FormData(reportForm);
@@ -557,12 +559,16 @@
             // Hide the form and show thank you message
             reportForm.style.display = 'none';
             thankYouMessage.style.display = 'block';
+            // Reset loading state
+            submitButton.classList.remove('loading');
           })
           .catch(error => {
             console.error('Error!', error.message);
             // Still show success since we want to be user-friendly
             reportForm.style.display = 'none';
             thankYouMessage.style.display = 'block';
+            // Reset loading state
+            submitButton.classList.remove('loading');
           });
         });
         
