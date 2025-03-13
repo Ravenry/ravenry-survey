@@ -77,7 +77,7 @@
                 <li>
                 </li>
                 <li>
-                  <a class="btn btn_dark download-btn" href="#contact">
+                  <a class="btn btn_dark" target="_blank" href="https://forms.gle/JVmkLodJGs8z6exE6">
                     <span>
                       <small>Register Now</small>
                       <small>Register Now</small>
@@ -124,7 +124,7 @@
               <br><br>
                 <form action="#">
                   <div class="form_item">
-                      <a href="#contact" class="btn btn_dark download-btn">
+                      <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
                         <span>
                           <small>Download Report</small>
                           <small>Download Report</small>
@@ -195,15 +195,15 @@
                       </h3>
                       <p>
                         <ul style="margin-left: -16px; font-size: 16px;">
-                          <li><b>Singapore's Independent Talent Skews More Senior Than the Global Average:</b><br> Independent workers are not junior freelancers but seasoned professionals embedded in strategic roles</li>
+                          <li><b>Singapore’s Independent Talent Skews More Senior Than the Global Average:</b><br> Independent workers are not junior freelancers but seasoned professionals embedded in strategic roles</li>
                           <li style="margin-top: 8px;"><b>Why Organizations Turn to Independent Talent: </b><br>Businesses turn to independent professionals for two key reasons—fast hiring and specialized skills.</li>
                           <li style="margin-top: 8px;"> <b>Independent Talent Takes on Bigger, Longer Roles:</b><br> Companies are increasingly hiring independent professionals for senior and long-term roles, moving beyond short-term project work.</li>
-                          <li style="margin-top: 8px;"><b>Independent Work Isn't a Phase—It's a Career Choice: </b><br>While many professionals enter independent work due to situational factors, most choose to stay.</li>
+                          <li style="margin-top: 8px;"><b>Independent Work Isn’t a Phase—It’s a Career Choice: </b><br>While many professionals enter independent work due to situational factors, most choose to stay.</li>
                           
                         </ul>
                       </p>
                       <div class="form_item">
-                        <a href="#contact" class="btn btn_dark download-btn">
+                        <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
                           <span>
                             <small>Download Report</small>
                             <small>Download Report</small>
@@ -372,26 +372,21 @@
               </div>
               <div class="col col-lg-5">
                 <div class="calltoaction_form">
-                  <form id="reportForm">
+                  <form action="#">
                     <h3 class="form_title">Download the Report</h3>
                     <p style="margin-top: -16px;">
                       Our research is complete! Get access to a comprehensive report packed with actionable insights on optimizing flexible workforce strategies and driving business success.
                     </p>
-                    <div class="form_item">
-                      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; margin-bottom: 10px; background-color: white;">
-                    </div>
-                    <div class="form_item">
-                      <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1); color: black; font-size: 16px; background-color: white;">
-                    </div>
-                    <div class="form_item" style="margin-top: 16px;">
-                      <button type="submit" class="btn btn_dark">
-                        <span>
-                          <small>Download Report</small>
-                          <small>Download Report</small>
-                        </span>
-                      </button>
-                    </div>
-                    <div id="formMessage" style="margin-top: 10px; color: white;"></div>
+                    <form action="#">
+                      <div class="form_item"style="margin-top: 32px;" >
+                          <a href="https://forms.gle/JVmkLodJGs8z6exE6" target="_blank" class="btn btn_dark">
+                            <span>
+                              <small>Download Report</small>
+                              <small>Download Report</small>
+                            </span>
+                          </a>
+                      </div>
+                    </form>
                   </form>
                 </div>
               </div>
@@ -449,68 +444,6 @@
 
     <!-- Custom - Jquery Include -->
     <script src="assets/js/main.js"></script>
-
-    <!-- Google Sheets Form Submission -->
-    <script>
-      // Wait for the DOM to be fully loaded
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, setting up event listeners');
-        
-        // Update all download links to show the form instead
-        const downloadLinks = document.querySelectorAll('a[href*="drive.google.com"], .download-btn');
-        console.log('Found download links:', downloadLinks.length);
-        
-        downloadLinks.forEach(link => {
-          link.addEventListener('click', function(e) {
-            console.log('Download link clicked');
-            e.preventDefault();
-            // Scroll to the form section
-            document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
-          });
-        });
-
-        // Handle form submission
-        const reportForm = document.getElementById('reportForm');
-        const formMessage = document.getElementById('formMessage');
-        
-        reportForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          console.log('Form submitted');
-          
-          // Show loading message
-          formMessage.textContent = "Submitting...";
-          
-          // Open the download link in a new tab first
-          window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
-          
-          // Add timestamp field
-          const formData = new FormData(reportForm);
-          formData.append('timestamp', new Date().toISOString());
-          
-          // Submit to Google Script
-          fetch('https://script.google.com/macros/s/AKfycbyBzyod38jq-8K0ysHsXZOoIJ7m9qm01rxowSQ1IkpVKgx9qFbr7-I1tpcJNce-GTplWQ/exec', {
-            method: 'POST',
-            body: formData
-          })
-          .then(response => {
-            console.log('Success!', response);
-            formMessage.textContent = "Thank you for your interest!";
-            reportForm.reset();
-            
-            // Clear message after 3 seconds
-            setTimeout(() => {
-              formMessage.textContent = "";
-            }, 3000);
-          })
-          .catch(error => {
-            console.error('Error!', error.message);
-            // Still show success since download already started
-            formMessage.textContent = "Thank you for your interest!";
-            reportForm.reset();
-          });
-        });
-      });
-    </script>
 
   </body>
 </html>
