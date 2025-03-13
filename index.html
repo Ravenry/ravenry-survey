@@ -482,34 +482,49 @@
           
           // Show loading message
           formMessage.textContent = "Submitting...";
+
+          // Create a hidden form for submission
+          const submitForm = document.createElement('form');
+          submitForm.method = 'POST';
+          submitForm.action = 'https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec';
+          submitForm.target = '_blank'; // This prevents the response from replacing our page
+          submitForm.style.display = 'none';
+
+          // Add form fields
+          const nameField = document.createElement('input');
+          nameField.type = 'hidden';
+          nameField.name = 'name';
+          nameField.value = name;
+          submitForm.appendChild(nameField);
+
+          const emailField = document.createElement('input');
+          emailField.type = 'hidden';
+          emailField.name = 'email';
+          emailField.value = email;
+          submitForm.appendChild(emailField);
+
+          const timestampField = document.createElement('input');
+          timestampField.type = 'hidden';
+          timestampField.name = 'timestamp';
+          timestampField.value = new Date().toISOString();
+          submitForm.appendChild(timestampField);
+
+          // Add form to body
+          document.body.appendChild(submitForm);
+
+          // Submit the form
+          submitForm.submit();
+
+          // Show success message and open download
+          formMessage.textContent = "Thank you! Opening download...";
           
-          // Create form data
-          const formData = new FormData();
-          formData.append('name', name);
-          formData.append('email', email);
-          formData.append('timestamp', new Date().toISOString());
-          
-          // Submit to Google Script
-          fetch('https://script.google.com/macros/s/AKfycbwxN-iil0hWY13t-DxoswgoXxgnceZeFdfhH3GS_Forq8pO8pCRlpKJTY2DYPwhl_oNzQ/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            body: new URLSearchParams(formData)
-          })
-          .then(() => {
-            // Show success message
-            formMessage.textContent = "Thank you! Redirecting to download...";
-            
-            // Open the download link in a new tab
-            setTimeout(() => {
-              window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
-              formMessage.textContent = ""; // Clear message
-              reportForm.reset(); // Reset form
-            }, 1500);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            formMessage.textContent = "An error occurred. Please try again.";
-          });
+          // Open the download link in a new tab
+          setTimeout(() => {
+            window.open('https://drive.google.com/file/d/1I5sYyP7Fu_UE_KsUEFyUBwdAX_WmCiZl/view?usp=sharing', '_blank');
+            formMessage.textContent = ""; // Clear message
+            reportForm.reset(); // Reset form
+            document.body.removeChild(submitForm); // Clean up the temporary form
+          }, 1500);
         });
       });
     </script>
